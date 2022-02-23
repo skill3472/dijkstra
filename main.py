@@ -101,14 +101,14 @@ def main():
                 selbox.visited = True
                 if selbox == end_box:
                     searching = False
-                    if selbox.prior != None:
-                        while selbox.prior != start_box:
-                            path.append(selbox.prior)
-                            selbox = selbox.prior
+                    while selbox.prior != start_box:
+                        path.append(selbox.prior)
+                        selbox = selbox.prior
                 else:
                     for neighbour in selbox.neighbours:
                         if not neighbour.queued and not neighbour.wall:
                             neighbour.queued = True
+                            neighbour.prior = selbox
                             queue.append(neighbour)
 
             else:
@@ -125,12 +125,12 @@ def main():
                 box = grid[i][j]
                 box.draw(window, (20, 20, 20))
 
-                if box in path:
-                    box.draw(window, (0, 0, 200))
                 if box.queued:
                     box.draw(window, (200, 200, 0))
                 if box.visited:
                     box.draw(window, (0, 200, 200))
+                if box in path:
+                    box.draw(window, (250, 250, 250))
                 
                 if box.start:
                     box.draw(window, (200, 0, 200))
